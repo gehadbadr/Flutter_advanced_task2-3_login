@@ -1,14 +1,26 @@
-import 'dart:math';
 
 import 'package:advanced_login/consts/consts.dart';
+import 'package:advanced_login/providers/modelHud.dart';
+import 'package:advanced_login/screens/homepage.screens.dart';
 import 'package:advanced_login/screens/login_screen.dart';
 import 'package:advanced_login/screens/signup_screen.dart';
+import 'package:advanced_login/screens/splash.screens.dart';
+import 'package:advanced_login/services/prefrences.services.dart';
 import 'package:advanced_login/widgets/applogo.dart';
 import 'package:advanced_login/widgets/custom_button.dart';
 import 'package:advanced_login/widgets/custom_textfield.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:blurry_modal_progress_hud/blurry_modal_progress_hud.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  try {
+    PrefrencesService.prefs = await SharedPreferences.getInstance();
+  } catch (e) {
+    print(e.toString());
+  }
   runApp(const MyApp());
 }
 
@@ -18,18 +30,27 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      /*    theme: ThemeData(
-    //  colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),*/
-      initialRoute:'/', routes: {
-          '/': (context) => LoginScreen(),
-          'LoginScreen/': (context) => LoginScreen(),
-          'SignupScreen/': (context) => SignupScreen(),
-        }
+    return  MultiProvider(
+        providers: [
+          ChangeNotifierProvider<ModelHud>(
+            create: (context) => ModelHud(),
+          ),
+        
+        ],
+      child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Flutter Demo',
+          /*    theme: ThemeData(
+      //  colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
+        ),*/
+          initialRoute: '/',
+          routes: {
+            '/': (context) => SplashScreen(),
+            'LoginScreen/': (context) => LoginScreen(),
+            'SignupScreen/': (context) => SignupScreen(),
+            'HomepageScreen/': (context) => HomepageScreen(),
+          }),
     );
   }
 }
@@ -46,7 +67,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-        double height = context.screenHeight;
+    double height = context.screenHeight;
 
     return Scaffold(
       backgroundColor: bgColor,
@@ -60,11 +81,16 @@ class _MyHomePageState extends State<MyHomePage> {
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
-              (height*0.1).heightBox,
-                appLogoWidget(),
-                10.heightBox,
-               "Log in to ${appname}".text.fontFamily(bold).color(PKColor).size(18).make(),
-                10.heightBox,
+              (height * 0.1).heightBox,
+              appLogoWidget(),
+              10.heightBox,
+              "Log in to ${appname}"
+                  .text
+                  .fontFamily(bold)
+                  .color(PKColor)
+                  .size(18)
+                  .make(),
+              10.heightBox,
               Column(
                 children: [
                   CustomTextField(
@@ -76,7 +102,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   CustomTextField(
                     title: password,
                     hint: passwordHint,
-                    icon: Icons.lock ,
+                    icon: Icons.lock,
                     isPass: true,
                   ),
                   Align(
@@ -94,30 +120,29 @@ class _MyHomePageState extends State<MyHomePage> {
                   creatNewAccount.text.color(fontGrey).make(),
                   10.heightBox,
                   CustomButton(
-                          bgColor: lightGolden,
-                          textColor: PKColor,
-                          title: signup,
-                          onPress: () {/* Get.to(()=> SignupScreen());*/},
-                          )
-                      .box
-                      .width(context.screenWidth - 50)
-                      .make(),
+                    bgColor: lightGolden,
+                    textColor: PKColor,
+                    title: signup,
+                    onPress: () {/* Get.to(()=> SignupScreen());*/},
+                  ).box.width(context.screenWidth - 50).make(),
                   10.heightBox,
                   loginWith.text.color(fontGrey).make(),
                   10.heightBox,
                   Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children:
-                                List.generate(3, (index) => Padding(
-                                  padding: EdgeInsets.only(left:8),
-                                  child: CircleAvatar(
-                                      backgroundColor:lightGrey,
-                                      radius: 25,
-                                      child:Image.asset(socialIconList[index],width: 30,)
-                                    ),
-                                )
-                                ),
-                          )
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: List.generate(
+                        3,
+                        (index) => Padding(
+                              padding: EdgeInsets.only(left: 8),
+                              child: CircleAvatar(
+                                  backgroundColor: lightGrey,
+                                  radius: 25,
+                                  child: Image.asset(
+                                    socialIconList[index],
+                                    width: 30,
+                                  )),
+                            )),
+                  )
                 ],
               )
                   .box

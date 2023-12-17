@@ -17,6 +17,11 @@ const loginWith = 'Log in with';
 const privacyPolicy = 'Privacy Policy';
 const termAndCond = 'Terms and Conditions';
 const alreadyHaveAccount = 'Already have an account ? ';
-const loggedIn = 'Logged is successfully ';
+const registeredSuccessfully = 'you register successfully ';
+const errorRepassword = 'Retype password is not correct';
+const errorAgree = 'You have to agree';
+const loggedIn = 'you Logged is successfully ';
+const errorNullloggedIn = 'No Email is registered';
+const errorloggedIn = 'Wrong Email or Password ';
 const loggedOut = 'Logged out successfully ';
 
