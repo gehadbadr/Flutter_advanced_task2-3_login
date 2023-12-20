@@ -1,6 +1,6 @@
 
 import 'package:advanced_login/consts/consts.dart';
-import 'package:advanced_login/providers/modelHud.dart';
+import 'package:advanced_login/providers/auth.providers.dart';
 import 'package:advanced_login/screens/homepage.screens.dart';
 import 'package:advanced_login/screens/login_screen.dart';
 import 'package:advanced_login/screens/signup_screen.dart';
@@ -11,7 +11,6 @@ import 'package:advanced_login/widgets/custom_button.dart';
 import 'package:advanced_login/widgets/custom_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:blurry_modal_progress_hud/blurry_modal_progress_hud.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
@@ -32,8 +31,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return  MultiProvider(
         providers: [
-          ChangeNotifierProvider<ModelHud>(
-            create: (context) => ModelHud(),
+          ChangeNotifierProvider<AuthController>(
+            create: (context) => AuthController(),
           ),
         
         ],

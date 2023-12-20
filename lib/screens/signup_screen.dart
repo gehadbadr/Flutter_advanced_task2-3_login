@@ -1,6 +1,6 @@
 
 import 'package:advanced_login/consts/consts.dart';
-import 'package:advanced_login/providers/modelHud.dart';
+import 'package:advanced_login/providers/auth.providers.dart';
 import 'package:advanced_login/services/prefrences.services.dart';
 import 'package:advanced_login/widgets/applogo.dart';
 import 'package:advanced_login/widgets/custom_button.dart';
@@ -33,7 +33,7 @@ class _MyWidgetState extends State<SignupScreen> {
       resizeToAvoidBottomInset: false,
       backgroundColor: bgColor,
       body:BlurryModalProgressHUD(
-            inAsyncCall: Provider.of<ModelHud>(context).isLoading,
+            inAsyncCall: Provider.of<AuthController>(context).isLoading,
             blurEffectIntensity: 4,
             // progressIndicator: SpinKitFadingCircle(
             //   color: purpleColor,
@@ -146,7 +146,7 @@ class _MyWidgetState extends State<SignupScreen> {
                         textColor: whiteColor,
                         title: signup,
                         onPress: () async {
-                           final modelHud = Provider.of<ModelHud>(context, listen: false);
+                           final modelHud = Provider.of<AuthController>(context, listen: false);
                            modelHud.changeisLoading(true);
                           if(isCheck == true){
 

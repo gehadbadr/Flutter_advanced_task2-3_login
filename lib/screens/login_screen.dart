@@ -1,5 +1,5 @@
 import 'package:advanced_login/consts/consts.dart';
-import 'package:advanced_login/providers/modelHud.dart';
+import 'package:advanced_login/providers/auth.providers.dart';
 import 'package:advanced_login/services/prefrences.services.dart';
 import 'package:advanced_login/widgets/applogo.dart';
 import 'package:advanced_login/widgets/custom_button.dart';
@@ -22,7 +22,7 @@ class LoginScreen extends StatelessWidget {
       resizeToAvoidBottomInset: false,
       backgroundColor: bgColor,
       body: BlurryModalProgressHUD(
-            inAsyncCall: Provider.of<ModelHud>(context).isLoading,
+            inAsyncCall: Provider.of<AuthController>(context).isLoading,
             blurEffectIntensity: 4,
             // progressIndicator: SpinKitFadingCircle(
             //   color: purpleColor,
@@ -30,7 +30,7 @@ class LoginScreen extends StatelessWidget {
             // ),
             dismissible: true,
             opacity: 0.4,
-            color: Colors.black87,
+            color: Colors.black87  ,
         child: SingleChildScrollView(
           child: Center(
               child: Padding(
@@ -81,8 +81,8 @@ class LoginScreen extends StatelessWidget {
                         textColor: whiteColor,
                         title: login,
                         onPress: () async {
-                          final modelHud = Provider.of<ModelHud>(context, listen: false);
-                          modelHud.changeisLoading(true);
+                          final authController = Provider.of<AuthController>(context, listen: false);
+                          authController.changeisLoading(true);
                           if (_globalKey.currentState!.validate()) {
                             _globalKey.currentState?.save();
                             try {
@@ -90,27 +90,27 @@ class LoginScreen extends StatelessWidget {
                               String? passwordValue = prefsFile!.getString('password');
       
                               if (emailValue == null && passwordValue == null) {
-                                modelHud.changeisLoading(false);
+                                authController.changeisLoading(false);
                                     ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(content: Text(errorNullloggedIn)));
                               }if (emailValue != emailController.text ||
                                   passwordValue != passwordController.text) {
-                                modelHud.changeisLoading(false);
+                                authController.changeisLoading(false);
                                 ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(content: Text(errorloggedIn)));
-                                modelHud.changeisLoading(false);
+                                authController.changeisLoading(false);
                               } else {
                                prefsFile!.setBool('login',true);
-                               modelHud.changeisLoading(false);
+                               authController.changeisLoading(false);
                               VxToast.show(context, msg: loggedIn);
                               Navigator.pushReplacementNamed(context, 'HomepageScreen/');
                               }
                             } catch (e) {
                               print(e.toString());
-                              modelHud.changeisLoading(false);
+                              authController.changeisLoading(false);
                             }
                           } else {
-                            modelHud.changeisLoading(false);
+                            authController.changeisLoading(false);
                           }
                         },
                       ).box.width(context.screenWidth - 50).make(),

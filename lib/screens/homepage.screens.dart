@@ -55,7 +55,7 @@ class _HomepageScreenState extends State<HomepageScreen> {
                     10.heightBox,
                     'Email : ${email}'.text.make(),
                     10.heightBox,
-                    'Passeord : ******'.text.make(),
+                    'Password : ******'.text.make(),
                     
                   ],
                 ).box.alignCenterLeft.make(),
